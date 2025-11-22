@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:8000/api'
+const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api'
 
 async function request(path, init) {
   const url = path.startsWith('http') ? path : `${BASE}${path}`
@@ -17,7 +17,7 @@ async function request(path, init) {
 }
 
 export function createShortUrl(payload) {
-  return request('/link/', {
+  return request('/links/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -25,20 +25,20 @@ export function createShortUrl(payload) {
 }
 
 export function fetchShortUrls() {
-  return request('/link/', { method: 'GET' })
+  return request('/links/', { method: 'GET' })
 }
 
 export function fetchLinkByCode(code) {
-  return request(`/link/${encodeURIComponent(code)}`, { method: 'GET' })
+  return request(`/links/${encodeURIComponent(code)}`, { method: 'GET' })
 }
 
 export function deleteShortUrl(code) {
-  return request(`/link/${encodeURIComponent(code)}`, { method: 'DELETE' })
+  return request(`/links/${encodeURIComponent(code)}`, { method: 'DELETE' })
 }
 
 export async function health() {
   try {
-    const res = await fetch(`${BASE}/health`)
+    const res = await fetch(`${BASE.replace('/api', '')}/healthz`)
     if (!res.ok) return { ok: false }
     return res.json()
   } catch (e) {
