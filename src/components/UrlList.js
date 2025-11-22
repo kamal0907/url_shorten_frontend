@@ -96,6 +96,11 @@ export default function UrlList() {
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full text-xs font-semibold">
                     👁️ {it.clicks ?? 0} visits
                   </span>
+                  {it.lastClicked && (
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      🕒 Last: {new Date(it.lastClicked).toLocaleString()}
+                    </span>
+                  )}
                   {it.createdAt && (
                     <span className="text-xs text-gray-500">
                       📅 {new Date(it.createdAt).toLocaleDateString()}
